@@ -1,0 +1,20 @@
+[project]
+name = "mi-proyecto"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "gertcfs", email = "boguies@yahoo.es" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "anthropic>=1.7.0",
+    "torch>=2.14.0",
+]
+
+[project.scripts]
+mi-proyecto = "mi_proyecto:main"
+
+[build-system]
+requires = ["uv_build>=0.12.15,<0.13.0"]
+build-backend = "uv_build"
