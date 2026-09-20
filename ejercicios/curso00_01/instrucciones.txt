@@ -1,0 +1,29 @@
+python
+- fichero holamundo.py
+print("Hola mundo")
+- ejecutar: python holamundo.py
+
+typescript
+- fichero holamundo.ts
+const mensaje: string = "¡Hola, mundo!";
+console.log(mensaje);
+- ejecutar
+node holamundo.ts
+¡Hola, mundo!
+
+rust
+- fichero holamundo.rs
+fn main() {
+    println!("¡Hola, mundo!");
+}
+- compilar: rustc holamundo.rs
+- ejecutar: ./holamundo
+
+julia
+- fichero holamundo.jl
+println("Hola mundo")
+- ejecutar: tecleamos 'julia' para abrir el entorno interactivo y luego:
+julia> include("holamundo.jl")
+Hola mundo
+julia> exit()
+
