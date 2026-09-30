@@ -1,0 +1,43 @@
+La IA de Google.ai me ha creado un programa que sustituye al original, que es para CUDA, por uno que es para MPS de mac.
+
+Ejecución de gpu:check_mps.py:
+----------
+PyTorch version: 2.14.0
+Hardware detected: Apple Silicon GPU (MPS)
+GPU: Apple M2 Max Integrated Graphics
+Unified Memory (Total System): 64.0 GB
+
+=== CPU vs GPU Benchmark ===
+
+CPU matrix multiply (4000x4000): 0.074s
+GPU (MPS) matrix multiply (4000x4000): 0.159s
+Speedup: 0x
+
+Estimated max model size (fp16): ~32B parameters
+-----------
+
+Veo que el tiempo de GPU sale mayor que el de CPU, lo cual es erroneo.
+La explicación de la IA es:
+
+Tu M2 Max no es más lento; de hecho, es una bestia. 
+Lo que ha ocurrido aquí se debe a dos factores técnicos muy específicos de la arquitectura de Apple:
+1. El "coste de calentamiento" (Warm-up Overhead): La primera vez que PyTorch llama a una operación en el chip de Apple (como la multiplicación de matrices @), el sistema operativo tiene que compilar los kernels de Metal (MPS) en tiempo de ejecución para optimizarlos para tu chip M2 Max. Esa compilación tarda una fracción de segundo y se suma al tiempo total del benchmark. En las siguientes repeticiones, ese tiempo cae a prácticamente cero porque el código ya está compilado en caché.
+2. La optimización de la CPU de Apple: Apple diseña las CPUs de sus chips con aceleradores matemáticos integrados (llamados AMX o Apple Matrix Coprocessors). Para una sola multiplicación de matrices de 4000x4000, la CPU es absurdamente rápida (¡0.074 segundos es una locura!).
+
+Me ha hecho otra versión:
+
+Para ver el verdadero poder de tu GPU, el benchmark debe "calentar" el chip primero (hacer una multiplicación previa que no se cuente) o, mejor aún, repetir la operación varias veces para sacar la media.
+He modificado ligeramente el código para hacer 10 repeticiones. Lo guardo como gpu_check_mps2.py
+
+El resultado es este:
+
+-------------
+Calentando motores y compilando kernels de Apple Silicon...
+
+=== Ejecutando Test Real (Media de 10 iteraciones) ===
+CPU promedio por multiplicación: 0.0515s
+GPU (MPS) promedio por multiplicación: 0.0159s
+Speedup Real de la GPU: 3.2x
+-------------
+
+

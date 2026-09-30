@@ -1,6 +1,7 @@
 import sys
 import json
 import hashlib
+import time
 from pathlib import Path
 
 # Librerías desarrolladas por Hugging Face
@@ -55,19 +56,25 @@ def load_and_inspect(dataset_name: str, config: str = None, split: str = "train"
 #  max_rows = numero máximo de filas a descargar (por defecto 5)
 #  Campos fijos: split=train; streaming=True
 # Imprime 
-def stream_dataset(dataset_name: str, config: str = None, max_rows: int = 5):
+def stream_dataset(dataset_name: str, config: str = None, tiempo_total: int = 5): #max_rows: int = 5):
     kwargs = {"path": dataset_name, "split": "train", "streaming": True}
     if config:
         kwargs["name"] = config
-
+    
     ds = load_dataset(**kwargs)
+    
     rows = []
+    tiempo_inicio = time.time()
+    
     for i, example in enumerate(ds):
         rows.append(example)
-        if i >= max_rows - 1:
+        if (time.time() - tiempo_inicio) >= tiempo_total:
             break
+        #if i >= max_rows - 1:
+         #   break
 
-    print(f"Recibidos por streaming {len(rows)} filas de {dataset_name}")
+    print(f"Tiempo de ejecución {time.time() - tiempo_inicio}")
+    print(f"Procesadas {len(rows)} filas de {dataset_name}")
     return rows
 
 # Conversion de formato del dataset a csv, json y parquet
@@ -199,19 +206,19 @@ if __name__ == "__main__":
     print("=" * 60)
 
     print("\n--- 1. Carga e inspección de un dataset ---")
-    ds = load_and_inspect("glue", config="mrpc", split="train")
+    ds = load_and_inspect("nyu-mll/glue", config="mrpc", split="train")
 
     print("\n--- 2. Hacer Streaming de un dataset ---")
-    rows = stream_dataset("c4", max_rows=3)
-    for row in rows:
-        print(f"  {row['text'][:80]}...")
+    rows = stream_dataset("allenai/c4", "es", tiempo_total=10)
+    #for row in rows:
+     #   print(f"  {row['text'][:80]}...")
 
     print("\n--- 3. Conversión de formatos ---")
     small_ds = ds.select(range(500))
-    paths = convert_format(small_ds, "/tmp/data_utils_demo", "rotten_tomatoes_sample")
+    paths = convert_format(small_ds, "/tmp/data_utils_demo", "glue_peque")
 
     print("\n--- 4. Crear los splits train/val/test ---")
-    splits = make_splits(small_ds, train_ratio=0.8, val_ratio=0.1, seed=42)
+    splits = make_splits(small_ds, train_ratio=0.7, val_ratio=0.15, seed=42)
 
     print("\n--- 5. Recarga desde Parquet ---")
     reloaded = load_from_parquet(str(paths["parquet"]))
