@@ -177,12 +177,11 @@ def demo_unit_square():
                 rotado.append(fmt(result))
         print(f"  det = {fmt(det_2x2(matrix))}")
 
-    for i, j in zip(range(3), range(1, 4)):
-        print(f"Distancias ({square[i]} a {square[j]}) = {math.dist(square[i], square[j])} \
-; ({rotado[i]} a {rotado[j]}) = {math.dist(rotado[i], rotado[j])}")
-
-    print(f"Distancias ({square[3]} a {square[0]}) = {math.dist(square[3], square[0])} \
-; ({rotado[3]} a {rotado[0]}) = {math.dist(rotado[3], rotado[0])}")
+    for i, j in zip([0,1,2,3], [1,2,3,0]):
+        print(f"Distancias {square[i]} a {square[j]} = "
+              f"{math.dist(square[i], square[j])}; "
+              f"{rotado[i]} a {rotado[j]} = "
+              f"{round(math.dist(rotado[i], rotado[j]),4)}")
 
 
 def demo_composition():
