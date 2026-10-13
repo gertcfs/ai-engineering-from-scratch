@@ -8,6 +8,7 @@ const handlers = {
   '/api/v1/catalog': require('../api/v1/catalog'), '/api/v1/resource': require('../api/v1/resource'),
   '/api/mcp': require('../api/mcp'), '/api/not-found': require('../api/not-found'),
   '/api/lesson': require('../api/lesson'), '/api/certification': require('../api/certification'),
+  '/api/og': require('../api/og'),
 };
 
 function queryObject(params) {
@@ -58,9 +59,10 @@ function createServer() {
       };
       if (!routed && destination === '/') destination = '/index.html';
       if (!routed && !handlers[destination] && !isFile(destination)) {
-        const rule = config.rewrites.find(rule => (rule.source === url.pathname && matches(rule, req))
+        const pageMatch = rule => rule.source.includes(':page(') && url.pathname.match(new RegExp('^' + rule.source.replace(/:page\(([^)]+)\)/, '($1)') + '$'));
+        const rule = config.rewrites.find(rule => ((rule.source === url.pathname || pageMatch(rule)) && matches(rule, req))
           || (rule.source === '/api/:missing*' && url.pathname.startsWith('/api/')));
-        if (rule) destination = rule.destination;
+        if (rule) destination = rule.destination.replace(':page', (pageMatch(rule) || [])[1] || '');
       }
       const target = new URL(destination, 'http://127.0.0.1');
       for (const [key, value] of target.searchParams) url.searchParams.append(key, value);
@@ -70,7 +72,7 @@ function createServer() {
         res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
         return res.end(req.method === 'HEAD' ? undefined : fs.readFileSync(path.join(SITE, '404.html')));
       }
-      const type = ({'.html':'text/html','.js':'application/javascript','.css':'text/css','.json':'application/json','.md':'text/markdown','.txt':'text/markdown','.xml':'application/xml','.png':'image/png','.svg':'image/svg+xml','.webp':'image/webp','.woff2':'font/woff2'})[path.extname(target.pathname)] || 'application/octet-stream';
+      const type = ({'.html':'text/html','.js':'application/javascript','.css':'text/css','.json':'application/json','.md':'text/markdown','.txt':'text/markdown','.xml':'application/xml','.png':'image/png','.svg':'image/svg+xml','.webp':'image/webp','.ico':'image/x-icon','.woff2':'font/woff2'})[path.extname(target.pathname)] || 'application/octet-stream';
       res.setHeader('Content-Type', type);
       if (req.method === 'HEAD') return res.end();
       fs.createReadStream(path.join(SITE, target.pathname)).pipe(res);

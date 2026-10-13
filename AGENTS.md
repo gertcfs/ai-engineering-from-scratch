@@ -2,13 +2,13 @@
 
 Operating manual for contributors and AI agents touching this repo. Read it before opening a PR.
 
-The repo is a curriculum, not a SaaS app. The lessons are the product. Every rule below keeps 523 lessons coherent over time.
+The repo is a curriculum, not a SaaS app. The lessons are the product. Every rule below keeps 528 lessons coherent over time.
 
 ---
 
 ## Philosophy
 
-523 lessons. 20 phases. Every algorithm built from raw math before a single framework gets imported. You write backprop, the tokenizer, the attention mechanism, and the agent loop by hand in Python, TypeScript, Rust, or Julia. Then you run the same operation through the production library so the framework stops being a black box. The "Build It / Use It" split is the spine. Each lesson ships a reusable artifact you can plug into your daily workflow.
+528 lessons. 20 phases. Every algorithm built from raw math before a single framework gets imported. You write backprop, the tokenizer, the attention mechanism, and the agent loop by hand in Python, TypeScript, Rust, or Julia. Then you run the same operation through the production library so the framework stops being a black box. The "Build It / Use It" split is the spine. Each lesson ships a reusable artifact you can plug into your daily workflow.
 
 ---
 
@@ -259,6 +259,14 @@ CI gates (`.github/workflows/curriculum.yml`):
 | `glossary/terms.md`           | when introducing a term used by more than one lesson             |
 
 **Common bug**: if `grep -c 'tree/main/phases/NN-' site/data.js` is 0 after merge, the Phase NN README rows are plain text and missing the `[Title](phases/NN-...)` markdown link. `site/build.js` derives the URL from that link.
+
+### Social cards
+
+Every page shares its own 1200x630 card from `/og/<type>/<id>.png`, rendered by `api/og.js` with `lib/og-render.js`. The card text comes from the data that builds the page: `lesson-seo.json`, `certification-seo.json`, and `site/og-cards.json`, which `site/build.js` writes. Each card URL carries a content hash (`?v=`), so a changed title or count gets a new URL.
+
+- A new static page needs an entry in `PAGES` in `lib/og-cards.js` and an `og:image` tag for `/og/page/<id>.png`. The deploy step in `site/version-assets.js` writes the other image tags and the version.
+- The version also hashes `lib/og-render.js` and `lib/og-fonts/`, so a new layout or atlas gets new URLs without a manual bump.
+- `node scripts/build-og-fonts.js` rebuilds the glyph atlases with Chrome. Run it on a developer machine only, never in CI or the Vercel build.
 
 ---
 

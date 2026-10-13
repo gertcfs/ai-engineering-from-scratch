@@ -7,6 +7,17 @@
   <meta name="description" content="AI Engineering from Scratch API documentation: public curriculum search, Markdown, OpenAPI, hosted MCP, authentication policy, and rate limits.">
   <link rel="alternate" type="text/markdown" href="https://aiengineeringfromscratch.com/developer.md">
   <link rel="canonical" href="https://aiengineeringfromscratch.com/developer.html">
+  <meta property="og:title" content="API and MCP documentation · AI Engineering from Scratch">
+  <meta property="og:description" content="AI Engineering from Scratch API documentation: public curriculum search, Markdown, OpenAPI, hosted MCP, authentication policy, and rate limits.">
+  <meta property="og:image" content="https://aiengineeringfromscratch.com/og/page/developer.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="API and MCP documentation - AI Engineering from Scratch">
+  <meta property="og:url" content="https://aiengineeringfromscratch.com/developer.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://aiengineeringfromscratch.com/og/page/developer.png">
+  <meta name="twitter:image:alt" content="API and MCP documentation - AI Engineering from Scratch">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=VT323&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -14,7 +25,7 @@
   <style>
     .trust-page { max-width: 780px; margin: 0 auto; padding: 100px 0 80px; }
     .trust-page h1, .trust-page h2 { font-family: var(--font-display); color: var(--blueprint); text-transform: uppercase; }
-    .trust-page h1 { font-size: clamp(2.4rem, 6vw, 3.8rem); line-height: 1; }
+    .trust-page h1 { font-size: clamp(min(2.4rem, 12vw), 6vw, 3.8rem); line-height: 1; }
     .trust-page h2 { font-family: var(--font-mono); font-size: 1rem; letter-spacing: .12em; margin-top: 42px; }
     .trust-page p, .trust-page li { font-family: var(--font-body); font-size: 1.05rem; line-height: 1.7; color: var(--ink); }
     .trust-page a { color: var(--blueprint); }
@@ -22,6 +33,9 @@
     .trust-page { overflow-wrap: anywhere; }
     .trust-page code { font-family: var(--font-mono); background: var(--bg-surface); border: 1px solid var(--rule-soft); padding: 1px 5px; }
   </style>
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to content</a>
@@ -63,7 +77,7 @@
     <h2>Public REST API</h2>
     <ul>
       <li><a href="/api/v1/catalog?q=attention&amp;limit=3"><code>/api/v1/catalog</code></a>: search with <code>q</code>, filter by <code>kind</code>, and page with <code>limit</code> and <code>offset</code>.</li>
-      <li><a href="/api/v1/resource?path=phases%2F00-setup-and-tooling%2F01-dev-environment"><code>/api/v1/resource</code></a>: supply a returned <code>path</code> to retrieve the original Markdown and source links.</li>
+      <li><a href="/api/v1/resource?path=phases%2F00-setup-and-tooling%2F01-dev-environment"><code>/api/v1/resource</code></a>: supply a returned <code>path</code> to retrieve the original Markdown and source links. Add <code>lang</code> with a code from the lesson <code>translations</code> to read a translated lesson.</li>
       <li><a href="/api/v1/markdown?path=/about"><code>/api/v1/markdown</code></a>: request a navigation page as HTML or Markdown.</li>
       <li><a href="openapi.json">OpenAPI 3.1 specification</a>: operation IDs, typed inputs, response schemas, and errors for tool integration.</li>
     </ul>
@@ -73,7 +87,8 @@
     <p>Catalog, resource, and MCP handlers each enforce 120 requests per minute per client IP on each running function instance. Clients sharing an IP share a quota. <code>RateLimit-Policy</code> and <code>RateLimit</code> describe this local window; application 429 responses include <code>Retry-After</code>. Cold starts and scaled instances have separate counters. See the full guide for quota scope and platform error handling.</p>
     <h2>Versioning and Markdown</h2>
     <p>REST v1 uses <code>/api/v1/</code> and <code>X-API-Version: 1</code>. Breaking changes require a new major path. Any retirement will be announced at least 90 days ahead with a migration guide and Deprecation and Sunset headers. No v1 operation is currently deprecated.</p>
-    <p>The homepage and public navigation pages, including their .html URLs, return Markdown when <code>Accept</code> names <code>text/markdown</code>. HTML remains the browser default. Both are static CDN files, and responses send <code>Vary: Accept, Accept-Encoding</code>. Use <code>/api/v1/markdown?path=/docs</code> for full quality-value negotiation. Lesson and certification readers keep their existing HTML behavior; retrieve lesson Markdown through the resource API.</p>
+    <p>The homepage and public navigation pages, including their .html URLs, return Markdown when <code>Accept</code> names <code>text/markdown</code>. HTML remains the browser default. Both are static CDN files, and responses send <code>Vary: Accept, Accept-Encoding</code>. Use <code>/api/v1/markdown?path=/docs</code> for full quality-value negotiation. Lesson pages also return their Markdown when <code>Accept</code> prefers <code>text/markdown</code>; certification readers keep their HTML behavior.</p>
+    <p>Course lessons are also published in zh, hi, es, ar, fr, pt, pt-BR, tr, vi, and fa at <code>/lesson?path=&lt;lesson path&gt;&amp;lang=&lt;code&gt;</code>. Each translated page has its own canonical URL and hreflang alternates, and <code>/sitemap-index.xml</code> lists one sitemap per language. The resource API and the MCP <code>read_resource</code> tool accept the same optional <code>lang</code>.</p>
     <h2>Hosted MCP server</h2>
     <p>Connect a Streamable HTTP client to <code>https://aiengineeringfromscratch.com/mcp</code>. The server negotiates MCP 2025-11-25 or 2025-03-26 and exposes <code>search_curriculum</code> and <code>read_resource</code>, with input and output schemas.</p>
     <p>This stateless server returns JSON and accepts notifications without a response body. It does not open GET event streams or create sessions. The <a href="server.json">MCP Registry-format manifest</a> also resolves at <code>/.well-known/mcp.json</code>; publishing in a registry is a separate release step.</p>

@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
 WEBSITE_ID = "https://aiengineeringfromscratch.com/#website"
 COURSE_ID = "https://aiengineeringfromscratch.com/#course"
+MAINTAINER_ID = "https://aiengineeringfromscratch.com/#maintainer"
 
 
 def load_json_ld(path: Path) -> list[dict]:
@@ -73,7 +74,12 @@ def main() -> None:
     for rule in markdown_pages:
         assert rule["has"] == [{"type": "header", "key": "accept", "value": "(?i).*text/markdown.*"}], rule["source"]
         assert html_pages[rule["source"]].endswith(".html"), f"{rule['source']} must default to HTML"
-        assert (SITE / rule["destination"].lstrip("/")).is_file(), f"build did not publish {rule['destination']}"
+        for published in (rule["destination"], html_pages[rule["source"]]):
+            target = published.lstrip("/")
+            if ":page" in target:
+                assert list(SITE.glob(target.replace(":page", "*"))), f"build did not publish {published}"
+            else:
+                assert (SITE / target).is_file(), f"build did not publish {published}"
     functions = config["functions"]
     assert all(value["maxDuration"] <= 10 for value in functions.values())
     assert "api/**/*.js" not in functions, "functions bundle only the files they read"
@@ -224,9 +230,21 @@ def main() -> None:
 
     home_schema = load_json_ld(SITE / "index.html")[0]
     home_graph = {node["@type"]: node for node in home_schema["@graph"]}
-    assert set(home_graph) == {"WebSite", "Course"}
+    assert set(home_graph) == {"WebSite", "Course", "Person"}
     assert home_graph["WebSite"]["@id"] == WEBSITE_ID
     assert home_graph["Course"]["@id"] == COURSE_ID
+    maintainer = home_graph["Person"]
+    assert maintainer["@id"] == MAINTAINER_ID
+    assert maintainer["name"] == "Rohit Ghumare"
+    assert home_graph["WebSite"]["author"] == {"@id": MAINTAINER_ID}
+    assert home_graph["Course"]["author"] == {"@id": MAINTAINER_ID}
+    on_site_pages = "".join(
+        (SITE / name).read_text(encoding="utf-8")
+        for name in ("index.html", "about.html", "contact.html")
+    )
+    assert maintainer["sameAs"]
+    for profile in maintainer["sameAs"]:
+        assert f'href="{profile}"' in on_site_pages, f"{profile} is not linked from the site"
     assert home_graph["Course"]["hasCourseInstance"] == {
         "@type": "CourseInstance",
         "courseMode": "online",
@@ -238,8 +256,8 @@ def main() -> None:
     assert about_schema["about"] == {"@id": COURSE_ID}
 
     identity_json = json.dumps([home_schema, about_schema])
+    assert identity_json.count('"Person"') == 1
     for false_field in (
-        "Person",
         "Organization",
         "alternateName",
         "contactPoint",
