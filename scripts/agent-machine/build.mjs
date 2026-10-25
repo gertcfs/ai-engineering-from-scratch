@@ -121,7 +121,7 @@ const html = `<!DOCTYPE html>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=VT323&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260824a">
+  <link rel="stylesheet" href="style.css?v=20261015a">
   <script>
     (function () {
       var root = document.documentElement;
@@ -141,7 +141,7 @@ const html = `<!DOCTYPE html>
       <nav class="header-nav">
         <a href="index.html#contents">Contents</a>
         <a href="catalog.html">Catalog</a>
-        <a href="prereqs.html">Roadmap</a>
+        <a href="roadmap.html">Roadmap</a>
         <a href="glossary.html">Glossary</a>
         <a href="about.html">About</a>
         <a href="https://github.com/rohitg00/ai-engineering-from-scratch" target="_blank" rel="noopener" class="header-github">GitHub <span class="star-count" data-loading="true" aria-label="GitHub stars">…</span></a>
@@ -300,7 +300,7 @@ ${STUDIO ? STUDIO_PANEL : `          <a class="am-btn am-poster" href="anatomy/i
       });
     })();
   </script>
-  <script src="header.js?v=20260927a" defer></script>
+  <script src="header.js?v=20261021a" defer></script>
   <script>${wrapped.replace(/<\/(script)/gi, "<\\/$1")}</script>
 </body>
 </html>

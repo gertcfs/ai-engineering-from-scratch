@@ -29,6 +29,14 @@ function loadProductionAssets() {
   if (!productionAssets) {
     const manifest = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'site', 'lesson-seo.json'), 'utf8'));
     let lessonTerms = {};
+    let cheatsheets = {};
+    let practice = {};
+    try {
+      practice = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'site', 'practice-map.json'), 'utf8')).lessons || {};
+    } catch (_) {}
+    try {
+      cheatsheets = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'site', 'cheatsheet-map.json'), 'utf8')).lessons || {};
+    } catch (_) {}
     try {
       lessonTerms = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, 'site', 'lesson-terms.json'), 'utf8')).lessons || {};
     } catch (_) {}
@@ -36,6 +44,8 @@ function loadProductionAssets() {
       template: fs.readFileSync(path.join(REPO_ROOT, 'site', 'lesson.html'), 'utf8'),
       manifest,
       lessonTerms,
+      cheatsheets,
+      practice,
       readMarkdown: function (lessonPath) {
         return fs.readFileSync(path.join(REPO_ROOT, lessonPath, 'docs', 'en.md'), 'utf8');
       },
@@ -343,7 +353,23 @@ function lessonFallback(entry, lessonPath, contextParams, page, body) {
   ].filter(Boolean).join('\n');
 }
 
-function lessonHubLinks(entry, page, lessonTerms) {
+function sheetLinks(lessonPath, sheets) {
+  const list = sheets && Object.prototype.hasOwnProperty.call(sheets, lessonPath) && Array.isArray(sheets[lessonPath]) ? sheets[lessonPath] : [];
+  const links = list
+    .filter(item => item && typeof item.title === 'string' && /^\/cheatsheets\/[a-z0-9-]+$/.test(item.href || ''))
+    .map(item => `<a href="${escapeHtml(item.href)}">${escapeHtml(item.title)}</a>`);
+  return links.length ? `        <p class="lesson-hub-terms"><span>Cheat sheets:</span> ${links.join(', ')}</p>` : '';
+}
+
+function practiceLinks(lessonPath, practice) {
+  const list = practice && Object.prototype.hasOwnProperty.call(practice, lessonPath) && Array.isArray(practice[lessonPath]) ? practice[lessonPath] : [];
+  const links = list
+    .filter(item => item && typeof item.title === 'string' && /^\/practice\/[a-z0-9-]+$/.test(item.href || ''))
+    .map(item => `<a href="${escapeHtml(item.href)}">${escapeHtml(item.title)}</a>`);
+  return links.length ? `        <p class="lesson-hub-terms lesson-practice"><span>Practice this:</span> ${links.join(', ')}</p>` : '';
+}
+
+function lessonHubLinks(entry, page, lessonTerms, sheets, practice) {
   if (!page.hub || page.lang !== 'en') return '';
   const terms = lessonTerms && Object.prototype.hasOwnProperty.call(lessonTerms, entry.path) && Array.isArray(lessonTerms[entry.path])
     ? lessonTerms[entry.path]
@@ -355,6 +381,8 @@ function lessonHubLinks(entry, page, lessonTerms) {
     '      <nav class="lesson-hub-links" aria-label="Phase and glossary links">',
     `        <ol class="lesson-hub-trail"><li><a href="/">Home</a></li><li><a href="${escapeHtml(page.hub)}">${escapeHtml(contextLabel(entry.context))}</a></li><li aria-current="page">${escapeHtml(page.heading)}</li></ol>`,
     links.length ? `        <p class="lesson-hub-terms"><span>Terms in this lesson:</span> ${links.join(', ')}</p>` : '',
+    sheetLinks(entry.path, sheets),
+    practiceLinks(entry.path, practice),
     '      </nav>',
   ].filter(Boolean).join('\n');
 }
@@ -523,7 +551,7 @@ function createHandler(options) {
         const body = renderBody(markdown, page.heading);
         let html = replaceMarkedRegion(localizedTemplate(template, servedLang), SEO_START, SEO_END, lessonHead(entry, page));
         html = replaceMarkedRegion(html, FALLBACK_START, FALLBACK_END, lessonFallback(entry, lessonPath, contextParams, page, body));
-        html = replaceMarkedRegion(html, HUBS_START, HUBS_END, lessonHubLinks(entry, page, assets.lessonTerms));
+        html = replaceMarkedRegion(html, HUBS_START, HUBS_END, lessonHubLinks(entry, page, assets.lessonTerms, assets.cheatsheets, assets.practice));
         send(res, method, 200, html, cacheControl);
       };
       const lang = contextParams.lang;

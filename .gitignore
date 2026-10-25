@@ -1,5 +1,6 @@
 __pycache__/
 *.py[cod]
+!phases/13-tools-and-protocols/43-bytecode-and-managed-formats/code/fixtures/python/*.pyc
 *$py.class
 *.so
 .Python
@@ -70,6 +71,7 @@ mlruns/
 !.claude/skills/find-your-level/**
 !.claude/skills/learn-agent-skills/
 !.claude/skills/learn-mcp/
+!.claude/skills/learn-reverse-engineering/
 !.claude/skills/blueprint-figure/
 !.claude/skills/blueprint-figure/**
 !.claude/skills/course-style/
@@ -117,11 +119,20 @@ site/hubs/
 site/lesson-terms.json
 site/sitemap-glossary.xml
 site/sitemap-phases.xml
+site/sitemap-cheatsheets.xml
+site/cheatsheets/
+site/cheatsheet-map.json
+site/sitemap-practice.xml
+site/practice/
+site/practice-map.json
 site/manual-*.html
+site/manual/
+site/sitemap-manuals.xml
 site/manuals-data.js
 site/manuals.html
 
 !manuals/*/capture/out/*.log
+!manuals/*/capture/gpu/out-*/*.log
 
 .project-validation/
 projects/*/solution/output/

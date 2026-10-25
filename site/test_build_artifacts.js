@@ -462,10 +462,10 @@ function writeMarkdown(file, { name, description, version }) {
 
 test('shared site asset families use the expected cache keys on every page', () => {
   const release = '20260822a';
-  const styleRelease = '20260824a';
-  const navigationRelease = '20260927a';
+  const styleRelease = '20261015a';
+  const navigationRelease = '20261021a';
   const narrationRelease = '20260829a';
-  const homepageRelease = '20260927a';
+  const homepageRelease = '20261015a';
   const pages = [
     'about.html',
     'assessment.html',
@@ -477,7 +477,7 @@ test('shared site asset families use the expected cache keys on every page', () 
     'glossary.html',
     'index.html',
     'lesson.html',
-    'prereqs.html',
+    'roadmap.html',
     'privacy.html',
     'sponsors.html',
   ];
@@ -503,8 +503,8 @@ test('shared site asset families use the expected cache keys on every page', () 
   }
 
   assert.equal(versionFor(sourceFor('index.html'), 'app.js'), homepageRelease);
-  assert.equal(versionFor(sourceFor('prereqs.html'), 'roadmap.css'), release);
-  assert.equal(versionFor(sourceFor('prereqs.html'), 'roadmap.js'), release);
+  assert.equal(versionFor(sourceFor('roadmap.html'), 'roadmap.css'), release);
+  assert.equal(versionFor(sourceFor('roadmap.html'), 'roadmap.js'), release);
   assert.match(
     fs.readFileSync(path.join(__dirname, 'header.js'), 'utf8'),
     new RegExp(`NARRATION_VERSION = '${narrationRelease}'`)
@@ -658,7 +658,7 @@ test('build-time SEO manifests cover every readable lesson and expose canonical 
   assert.ok((certificationDiscovery.match(/href="lesson\?path=/g) || []).length >= expectedCertificationPaths.length);
   assert.doesNotMatch(catalogDiscovery + certificationDiscovery, /(?:lesson|certification)\.html\?/);
 
-  for (const file of ['index.html', 'prereqs.html']) {
+  for (const file of ['index.html', 'roadmap.html']) {
     const source = fs.readFileSync(path.join(__dirname, file), 'utf8');
     const description = source.match(/<meta name="description" content="([^"]+)">/);
     assert.ok(description, `${file} lacks a meta description`);
@@ -1801,8 +1801,9 @@ test('lesson reader keeps learning-path context and renders a copyable full-dept
   assert.match(lessonHtml, /Run from the repository root, the folder containing README\.md/);
   assert.match(lessonHtml, /Run copied commands from the repository root, the directory containing README\.md and phases\//);
   assert.doesNotMatch(lessonHtml, /shell is anywhere inside the repository/);
-  assert.match(lessonHtml, /inferLearningPath\(lessonPath\)/);
-  assert.match(lessonHtml, /preferredIds = \['agent-skills', 'model-context-protocol'\]/);
+  assert.doesNotMatch(lessonHtml, /inferLearningPath/);
+  assert.match(lessonHtml, /\? findLearningPath\(requestedLearningPathId\)/);
+  assert.match(lessonHtml, /'">Phase view<\/a><\/div>'/);
   assert.match(lessonHtml, /A code fence is not automatically a runnable program/);
   assert.match(lessonHtml, /var fetchOptions = localPreview \? \{ cache: 'no-store' \} : undefined/);
   assert.match(lessonHtml, /fetch\(primary, fetchOptions\)/);

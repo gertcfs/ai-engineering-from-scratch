@@ -52,8 +52,8 @@ Everything else (learning rate schedule, data mix, batch size, context length) l
 
 LayerNorm subtracts mean, divides by std, scales, and shifts. RMSNorm keeps only the scale:
 
-```
-RMSNorm(x) = x / sqrt(mean(x^2) + eps) * gamma
+```math
+\mathop{\mathrm{RMSNorm}}(x) = \frac{x}{\sqrt{\mathop{\mathrm{mean}}(x^2) + \epsilon}} \cdot \gamma
 ```
 
 No mean subtraction. No bias. One matmul fewer per token. Zhang and Sennrich (2019) argued it matched LayerNorm on machine translation while being 10% faster. Every modern open model runs it.
@@ -78,8 +78,8 @@ Every Llama, Mistral, Qwen, DeepSeek, and Gemma uses RoPE. Gemma 2 uses a hybrid
 
 GPT-2's MLP is `x -> gelu(xW1 + b1) -> (...)W2 + b2`. SwiGLU (Shazeer 2020) replaces the activation with a gated product:
 
-```
-SwiGLU(x) = (xW1) * sigmoid(xW1) * xV
+```math
+\mathop{\mathrm{SwiGLU}}(x) = (xW_1) \cdot \mathop{\mathrm{sigmoid}}(xW_1) \cdot xV
 ```
 
 Two projections in parallel instead of one, gated by the Swish activation. Empirically stronger on perplexity per parameter. Llama 2 adopted it, everyone followed. The MLP's hidden size is usually set so that total parameter count matches the original dense MLP: if GPT-2 used `ff_dim = 4 * hidden`, SwiGLU uses `ff_dim = (2/3) * 4 * hidden = 8/3 * hidden`.
@@ -90,7 +90,7 @@ GPT-2 used **Multi-Head Attention (MHA)**: every head has its own Q, K, V projec
 
 **Multi-Query Attention (MQA, Shazeer 2019)** shares one K and one V across all heads. Cuts the KV cache by num_heads, which is a 12x to 32x reduction on a typical model. Accuracy drops slightly on hard benchmarks.
 
-**Grouped-Query Attention (GQA, Ainslie et al. 2023)** is the middle ground: G groups of Q heads share one K and one V. Llama 3 8B uses GQA with 32 Q heads and 8 KV heads (G=8), so the KV cache shrinks 4x versus full MHA.
+**Grouped-Query Attention (GQA, Ainslie et al. 2023)** is the middle ground: $G$ groups of Q heads share one K and one V. Llama 3 8B uses GQA with 32 Q heads and 8 KV heads ($G=8$), so the KV cache shrinks 4x versus full MHA.
 
 **Multi-Head Latent Attention (MLA, DeepSeek 2024)** compresses K and V into a shared low-rank latent, projecting them back up per head. Further reduces KV cache while preserving per-head expressiveness. DeepSeek-V2 and V3 rely on this for their long-context performance.
 
@@ -226,7 +226,7 @@ kv_cache = 2 * num_kv_heads * head_dim * bytes_per_element
            * (full_layers * max_seq_len + sliding_layers * min(W, max_seq_len))
 ```
 
-Spark-X2.5 4B runs three sliding-window layers (W = 512) for every full-attention layer: 9 full and 27 sliding out of 36. At its 1M-token context that is about 38.7 GB (36 GiB) per sequence in BF16. If all 36 layers cached the full context it would be 154.6 GB (144 GiB). The full layers carry nearly the whole cost, which is why the ratio of full to sliding layers is the number to read first on a long-context model.
+Spark-X2.5 4B runs three sliding-window layers ($W = 512$) for every full-attention layer: 9 full and 27 sliding out of 36. At its 1M-token context that is about 38.7 GB (36 GiB) per sequence in BF16. If all 36 layers cached the full context it would be 154.6 GB (144 GiB). The full layers carry nearly the whole cost, which is why the ratio of full to sliding layers is the number to read first on a long-context model.
 
 ### When Each Model Wins
 
@@ -296,7 +296,7 @@ This lesson produces `outputs/skill-open-model-picker.md`. Given a deployment ta
 | MoE | "Sparse experts" | Mixture of Experts: N MLPs per block, router picks top-k per token — huge total params, small active params |
 | Top-k routing | "Pick k experts per token" | The router computes a score per expert and activates the k highest — typical k is 2 (Mixtral) to 8 (DeepSeek) |
 | YaRN | "Stretch RoPE" | Yet another RoPE extension — interpolates rotary angles to extend context from 8k to 128k+ at inference time |
-| Sliding-window attention | "Don't attend to everything" | Each token attends only to the last W tokens — caps attention cost at O(W) per token, used in Gemma 2 and early Mistral |
+| Sliding-window attention | "Don't attend to everything" | Each token attends only to the last $W$ tokens — caps attention cost at $O(W)$ per token, used in Gemma 2 and early Mistral |
 | Active params | "What runs per token" | For MoE models, the parameter count that sees a forward pass per token (much smaller than total params) — governs per-token FLOPs |
 
 ## Further Reading

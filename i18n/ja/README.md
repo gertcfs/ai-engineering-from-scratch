@@ -7,17 +7,23 @@
   </picture>
 </p>
 
+<p align="center">
+ <a href="https://www.star-history.com/rohitg00/ai-engineering-from-scratch">
+  <picture><source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/badge?repo=rohitg00/ai-engineering-from-scratch&type=rank&theme=dark" /><source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/badge?repo=rohitg00/ai-engineering-from-scratch&type=rank" /><img alt="スター履歴ランク" src="https://api.star-history.com/badge?repo=rohitg00/ai-engineering-from-scratch&type=rank" /></picture> <picture><source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/badge?repo=rohitg00/ai-engineering-from-scratch&type=trending&theme=dark" /><source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/badge?repo=rohitg00/ai-engineering-from-scratch&type=trending" /><img alt="本日の GitHub トレンドリポジトリ" src="https://api.star-history.com/badge?repo=rohitg00/ai-engineering-from-scratch&type=trending" /></picture>
+ </a>
+</p>
+
 モデルの内部処理、検索パイプライン、エージェントの実行環境を実装します。テストして失敗を調べ、コードと評価結果を残してください。
 
 **[学習を始める](https://aiengineeringfromscratch.com/lesson?path=phases/00-setup-and-tooling/01-dev-environment)** · **[学習パスを選ぶ](#learning-routes)** · **[ラボを試す](#interactive-lab)** · **[プロジェクトを作る](#project-challenges)** · **[カリキュラムを見る](#contents)**
 
 無料、オープンソース、MIT ライセンスです。ウェブサイト、コーディングエージェント、ローカルでのコード実行から学び方を選べます。
 
-> 528 授業. 20段階. Python, TypeScript, Rust, Julia.
+> 542 授業. 20段階. Python, TypeScript, Rust, Julia.
 
 <p align="center">
   <a href="../../LICENSE"><img src="https://img.shields.io/badge/license-MIT-1a1a1a?style=flat-square&labelColor=fafaf5" alt="MITライセンス"></a>
-  <a href="../../ROADMAP.md"><img src="https://img.shields.io/badge/lessons-528-3553ff?style=flat-square&labelColor=fafaf5" alt="528 授業"></a>
+  <a href="../../ROADMAP.md"><img src="https://img.shields.io/badge/lessons-542-3553ff?style=flat-square&labelColor=fafaf5" alt="542 授業"></a>
   <a href="#contents"><img src="https://img.shields.io/badge/phases-20-3553ff?style=flat-square&labelColor=fafaf5" alt="20段階"></a>
   <a href="https://github.com/rohitg00/ai-engineering-from-scratch/stargazers"><img src="https://img.shields.io/github/stars/rohitg00/ai-engineering-from-scratch?style=flat-square&labelColor=fafaf5&color=3553ff" alt="GitHubのスター"></a>
   <a href="https://aiengineeringfromscratch.com"><img src="https://img.shields.io/badge/web-aiengineeringfromscratch.com-3553ff?style=flat-square&labelColor=fafaf5" alt="ウェブサイト"></a>
@@ -36,7 +42,6 @@
 
 <p align="center">
   <a href="https://serpapi.com/ai-engineering-from-scratch"><picture><source media="(min-width: 768px)" srcset="../../assets/sponsors/serpapi-banner-compact.png" width="48%"><img src="../../assets/sponsors/serpapi-banner-compact.png" alt="SerpApi。AIアプリ向けのWeb検索API。あらゆる連携に使えるMarkdown形式とJSON形式に対応しています。" width="440"></picture></a>
-  <a href="https://nitrostack.ai/referral/aiengineeringfromscratch"><picture><source media="(min-width: 768px)" srcset="../../assets/sponsors/nitrostack-banner-equal.png" width="48%"><img src="../../assets/sponsors/nitrostack-banner-equal.png" alt="NitroStack。MCPアプリを10分で構築・デプロイ。無料のクラウドデプロイで、プロダクトをChatGPTとClaudeのマーケットプレイスに掲載できます。" width="440"></picture></a>
 </p>
 
 <p align="center">
@@ -207,6 +212,7 @@ Agent Skillsだけを学ぶ場合は、ホストに対応したAgent Skillsの�
 | [`course-guide`](../../skills/course-guide/SKILL.md) | トピック案内。「アテンションはどこで学べる？」「損失がNaNになる」などの質問から、関連レッスンとリンクを案内します。 |
 | [`learn-mcp`](../../skills/learn-mcp/SKILL.md) | Model Context Protocol（MCP）に特化したチューターです。`MCP-LEARNING.md`を作成して17レッスンのマニフェストに沿って進み、ワイヤ形式、セキュリティ、信頼性、適合性の証跡を記録します。 |
 | [`learn-agent-skills`](../../skills/learn-agent-skills/SKILL.md) | Agent Skillsに特化したチューターです。`AGENT-SKILLS-LEARNING.md`を作成し、レッスン22、24、25、26、27を教えて、実ホストでの証跡を記録します。 |
+| [`learn-reverse-engineering`](../../skills/learn-reverse-engineering/SKILL.md) | リバースエンジニアリングに特化したチューターです。`REVERSE-ENGINEERING-LEARNING.md`を作成し、フェーズ13のレッスン32から45を自分で作ったプログラムで教えて、ラボの証跡を記録します。 |
 | [`claude-certification`](../../skills/claude-certification/SKILL.md) | 認定資格チューターです。CCAO-F、CCDV-F、CCAR-F、CCAR-Pからトラックを選び、各レッスンを教え、ラボを実行し、成果物をレビューし、診断と模擬試験を実施して、進捗を保存します。 |
 | [`mcpa-certification`](../../skills/mcpa-certification/SKILL.md) | MCPAチューターです。2026-07-28プロトコルに対応する34レッスンの`mcpa-f`パスに沿って教え、ラボとワイヤ形式チェッカーを実行し、診断と模擬試験3回分を実施して、進捗を保存します。 |
 | [`find-your-level`](../../skills/find-your-level/SKILL.md) | 10問のレベル判定クイズで知識を確認し、開始フェーズと所要時間の目安を含む個別パスを作成します。 |
@@ -246,7 +252,7 @@ python3 phases/01-math-foundations/01-linear-algebra-intuition/code/vectors.py
 
 ## 学習パスを選ぶ
 
-始める前に528レッスンすべてに目を通す必要はありません。目標を1つ選んでください。どのリンクからもGitHubまたはウェブサイトで同じカリキュラムを開けます。どちらも同じレッスンコードを使っています。
+始める前に542レッスンすべてに目を通す必要はありません。目標を1つ選んでください。どのリンクからもGitHubまたはウェブサイトで同じカリキュラムを開けます。どちらも同じレッスンコードを使っています。
 
 | 目標 | GitHubで学ぶ | ウェブサイトで学ぶ |
 |---|---|---|
@@ -262,12 +268,13 @@ python3 phases/01-math-foundations/01-linear-algebra-intuition/code/vectors.py
 4つの主要分野と6つのキャリアパスを[AIエンジニアリング学習パス](https://aiengineeringfromscratch.com/learning-paths.html)で比較できます。
 
 <details>
-<summary>MCP と Agent Skills の専門学習パス</summary>
+<summary>MCP、Agent Skills、リバースエンジニアリングの専門学習パス</summary>
 
 | 目標 | GitHubで学ぶ | ウェブサイトで学ぶ |
 |---|---|---|
 | Model Context Protocol（MCP）を使って構築したい | [Model Context Protocol（MCP）の学習パス](../../phases/13-tools-and-protocols/README.md#model-context-protocol-mcp-path) | [Model Context Protocol（MCP）のパス](https://aiengineeringfromscratch.com/lesson?path=phases/13-tools-and-protocols/06-mcp-fundamentals&learningPath=model-context-protocol) |
 | Agent Skillsを書いて公開したい | [Agent Skills集中学習パス](../../phases/13-tools-and-protocols/README.md#agent-skills-fast-path) | [Agent Skillsのパス](https://aiengineeringfromscratch.com/lesson?path=phases/13-tools-and-protocols/22-skills-and-agent-sdks&learningPath=agent-skills) |
+| コンパイル済みプログラムを読み解きたい | [リバースエンジニアリング学習ルート](../../phases/13-tools-and-protocols/README.md#reverse-engineering-path) | [リバースエンジニアリングのパス](https://aiengineeringfromscratch.com/lesson?path=phases/13-tools-and-protocols/32-program-anatomy-elf-from-scratch&learningPath=reverse-engineering) |
 
 </details>
 
@@ -290,6 +297,7 @@ python3 phases/01-math-foundations/01-linear-algebra-intuition/code/vectors.py
 | シニアエンジニアで、エージェントエンジニアリングだけを学びたい | フェーズ14 — エージェントエンジニアリング | 約60時間 |
 | 本番向けMCPシステムだけを構築したい | [Model Context Protocol（MCP）のパス](../../learning-paths/model-context-protocol.json) | 約23時間15分 |
 | 本番向けAgent Skillsだけを作りたい | [Agent Skillsエンジニアリングのパス](../../learning-paths/agent-skills.json) | 約9.5時間 |
+| リバースエンジニアリングだけを学びたい | [リバースエンジニアリングのパス](../../learning-paths/reverse-engineering.json) | 約32.5時間 |
 
 </details>
 
@@ -698,7 +706,7 @@ flowchart TB
 </details>
 
 <details id="phase-13">
-<summary><b>フェーズ13 — ツールとプロトコル</b> &nbsp;<code>31 レッスン</code>&nbsp; <em>AIと現実世界をつなぐインターフェースを学びます。</em></summary>
+<summary><b>フェーズ13 — ツールとプロトコル</b> &nbsp;<code>45 レッスン</code>&nbsp; <em>AIと現実世界をつなぐインターフェースを学びます。</em></summary>
 <br/>
 
 | # | レッスン | 種別 | 言語 |
@@ -734,6 +742,20 @@ flowchart TB
 | 29 | [MCPの信頼性、キャンセル、フロー制御](../../phases/13-tools-and-protocols/29-mcp-reliability-cancellation-and-flow-control/) | 制作 | Python |
 | 30 | [MCPレジストリのサプライチェーン：登録審査、ドリフト、ロールバック](../../phases/13-tools-and-protocols/30-mcp-registry-supply-chain-and-drift/) | 制作 | Python |
 | 31 | [MCP適合性エンジニアリング：バージョン管理、証跡、運用](../../phases/13-tools-and-protocols/31-mcp-conformance-versioning-and-operations/) | 制作 | Python |
+| 32 | [プログラムの構造：ELFをゼロから読む](../../phases/13-tools-and-protocols/32-program-anatomy-elf-from-scratch/) | 制作 | Python |
+| 33 | [逆アセンブルと制御フローグラフ](../../phases/13-tools-and-protocols/33-disassembly-and-control-flow/) | 制作 | Python |
+| 34 | [機械語を疑似コードへ持ち上げる](../../phases/13-tools-and-protocols/34-lifting-to-pseudocode/) | 制作 | Python |
+| 35 | [バイナリ解析における証拠、確信度、未知の点](../../phases/13-tools-and-protocols/35-evidence-confidence-and-unknowns/) | 制作 | Python |
+| 36 | [再構築して同一性を証明する](../../phases/13-tools-and-protocols/36-rebuild-and-prove-equal/) | 制作 | Python |
+| 37 | [リバースエンジニアリングの全体像](../../phases/13-tools-and-protocols/37-the-reverse-engineering-landscape/) | 制作 | Python |
+| 38 | [呼び出し規約とスタックフレーム](../../phases/13-tools-and-protocols/38-calling-conventions-and-stack-frames/) | 制作 | Python |
+| 39 | [コンパイラのイディオムと最適化](../../phases/13-tools-and-protocols/39-compiler-idioms-and-optimization/) | 制作 | Python |
+| 40 | [リンク、ロード、ストリップされたバイナリ](../../phases/13-tools-and-protocols/40-linking-loading-and-stripped-binaries/) | 制作 | Python |
+| 41 | [データと型の復元](../../phases/13-tools-and-protocols/41-recovering-data-and-types/) | 制作 | Python |
+| 42 | [自作プログラムの動的解析](../../phases/13-tools-and-protocols/42-dynamic-analysis-of-your-own-program/) | 制作 | Python |
+| 43 | [バイトコードとマネージド形式](../../phases/13-tools-and-protocols/43-bytecode-and-managed-formats/) | 制作 | Python |
+| 44 | [バイナリ差分とシンボリック実行](../../phases/13-tools-and-protocols/44-binary-diffing-and-symbolic-execution/) | 制作 | Python |
+| 45 | [AIを活用したリバースエンジニアリング](../../phases/13-tools-and-protocols/45-ai-assisted-reverse-engineering/) | 制作 | Python |
 
 レッスン06–18および28–31が[Model Context Protocol（MCP）集中学習パス](../../learning-paths/model-context-protocol.json)を構成します。マニフェストの順序は06、07、08、09、10、11、12、13、14、15、16、18、17、28、29、30、31です。上のホスト別呼び出し方法で`learn-mcp`を開始してください。レッスン23は唯一の任意の総合課題で、レッスン19と20も必要です。
 
@@ -1148,7 +1170,7 @@ flowchart LR
 <details>
 <summary>レッスンの成果物をインストールする</summary>
 
-**レッスン成果物。** リポジトリには`phases/**/outputs/`に400個のスキルと100個のプロンプトが含まれます。`scripts/install_skills.py`でインストールできます。こちらはリポジトリのクローンが必要です。タグによる絞り込み、ドライラン、エージェント別レイアウトをサポートします。
+**レッスン成果物。** リポジトリには`phases/**/outputs/`に414個のスキルと100個のプロンプトが含まれます。`scripts/install_skills.py`でインストールできます。こちらはリポジトリのクローンが必要です。タグによる絞り込み、ドライラン、エージェント別レイアウトをサポートします。
 
 ```bash
 python3 scripts/install_skills.py <target>                                 # every skill, default --layout skills (nested)
@@ -1268,7 +1290,7 @@ python3 scripts/audit_lessons.py --json    # CI-friendly output
 <p align="center"><sub><b>114,584</b> 人の読者 &nbsp;·&nbsp; <b>181,995</b> 過去30日間のページビュー &nbsp;·&nbsp; 2026-08-29時点</sub></p>
 <!-- STATS:END -->
 
-無料、MITライセンス、528レッスン。この取り組みを支えるスポンサーと支援者の皆さまに感謝します。[すべてのスポンサーと支援者を見る](../../BACKERS.md)。
+無料、MITライセンス、542レッスン。この取り組みを支えるスポンサーと支援者の皆さまに感謝します。[すべてのスポンサーと支援者を見る](../../BACKERS.md)。
 
 この取り組みを支援するには、[スポンサーシップの選択肢](../../SPONSORS.md)と[ハードウェアスポンサーシップ](../../SPONSORS.md#hardware-lab-partner)をご覧になるか、[GitHubでスポンサーになる](https://github.com/sponsors/rohitg00)ことができます。
 
